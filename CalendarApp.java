@@ -60,8 +60,13 @@ public class CalendarApp extends JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
         monthLabel.setText(sdf.format(calendar.getTime()));
 
-        // Set calendar to first day of the month
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        // Add day names labels at the top of the calendar panel
+        String[] dayNames = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+        for (String dayName : dayNames) {
+            JLabel nameLabel = new JLabel(dayName, JLabel.CENTER);
+            nameLabel.setForeground(Color.BLACK); // Set color to distinguish from day labels
+            calendarPanel.add(nameLabel);
+        }
 
         // Add empty labels for days before the first day of the month
         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -99,8 +104,11 @@ public class CalendarApp extends JFrame {
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    int day = Integer.parseInt(label.getText());
-                    JOptionPane.showMessageDialog(null, getFullDateInfo(day));
+                    try {
+                        int day = Integer.parseInt(label.getText());
+                        JOptionPane.showMessageDialog(null, getFullDateInfo(day));
+                    } catch (Exception exception) {
+                    }
                 }
             });
         }
@@ -116,7 +124,7 @@ public class CalendarApp extends JFrame {
         if (calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
                 calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) {
             int currentDay = today.get(Calendar.DAY_OF_MONTH);
-            JLabel currentDayLabel = (JLabel) calendarPanel.getComponent(currentDay + firstDayOfWeek - 2);
+            JLabel currentDayLabel = (JLabel) calendarPanel.getComponent(currentDay + firstDayOfWeek + 7 - 2);
             currentDayLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Add border
 
             return true;
