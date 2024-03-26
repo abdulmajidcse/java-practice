@@ -73,15 +73,19 @@ public class CalendarApp extends JFrame {
         int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= maxDayOfMonth; i++) {
             JLabel dayLabel = new JLabel(Integer.toString(i), JLabel.CENTER);
-            dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Add padding
+            // Add padding
+            dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
             dayLabel.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent e) {
-                    dayLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2)); // Highlight with blue border on
-                                                                                       // hover
+                    // Highlight with blue border on hover
+                    dayLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
                 }
 
                 public void mouseExited(MouseEvent e) {
-                    dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Remove border on mouse exit
+                    // Remove border on mouse exit
+                    dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                    highlightCurrentDay(firstDayOfWeek);
                 }
             });
             calendarPanel.add(dayLabel);
@@ -106,7 +110,7 @@ public class CalendarApp extends JFrame {
         repaint();
     }
 
-    private void highlightCurrentDay(int firstDayOfWeek) {
+    private boolean highlightCurrentDay(int firstDayOfWeek) {
         // Highlight current day with box design
         Calendar today = Calendar.getInstance();
         if (calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
@@ -114,6 +118,10 @@ public class CalendarApp extends JFrame {
             int currentDay = today.get(Calendar.DAY_OF_MONTH);
             JLabel currentDayLabel = (JLabel) calendarPanel.getComponent(currentDay + firstDayOfWeek - 2);
             currentDayLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Add border
+
+            return true;
+        } else {
+            return false;
         }
     }
 
