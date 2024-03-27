@@ -68,6 +68,9 @@ public class CalendarApp extends JFrame {
             calendarPanel.add(nameLabel);
         }
 
+        // start day nname of every month of first week
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
         // Add empty labels for days before the first day of the month
         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         for (int i = 1; i < firstDayOfWeek; i++) {
@@ -92,33 +95,23 @@ public class CalendarApp extends JFrame {
                     dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                     highlightCurrentDay(firstDayOfWeek);
                 }
+
+                public void mouseClicked(MouseEvent e) {
+                    int day = Integer.parseInt(dayLabel.getText());
+                    JOptionPane.showMessageDialog(null, getFullDateInfo(day));
+                }
             });
             calendarPanel.add(dayLabel);
         }
 
         this.highlightCurrentDay(firstDayOfWeek);
 
-        // Add mouse listener to each day label
-        for (Component component : calendarPanel.getComponents()) {
-            JLabel label = (JLabel) component;
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    try {
-                        int day = Integer.parseInt(label.getText());
-                        JOptionPane.showMessageDialog(null, getFullDateInfo(day));
-                    } catch (Exception exception) {
-                    }
-                }
-            });
-        }
-
         // Repaint the frame
         validate();
         repaint();
     }
 
-    private boolean highlightCurrentDay(int firstDayOfWeek) {
+    private void highlightCurrentDay(int firstDayOfWeek) {
         // Highlight current day with box design
         Calendar today = Calendar.getInstance();
         if (calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
@@ -126,10 +119,6 @@ public class CalendarApp extends JFrame {
             int currentDay = today.get(Calendar.DAY_OF_MONTH);
             JLabel currentDayLabel = (JLabel) calendarPanel.getComponent(currentDay + firstDayOfWeek + 7 - 2);
             currentDayLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Add border
-
-            return true;
-        } else {
-            return false;
         }
     }
 
