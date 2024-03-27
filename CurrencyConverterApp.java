@@ -13,6 +13,8 @@ public class CurrencyConverterApp extends JFrame {
     private JTextField resultTextField;
     // Fixed exchange rate (1 USD = 85 BDT)
     private JTextField exchangeRateField;
+    // default exchange rate (you can change default value from here or app window)
+    private String defaultExchangeRateValue = "109";
 
     public CurrencyConverterApp() {
         setTitle("Currency Converter");
@@ -24,6 +26,8 @@ public class CurrencyConverterApp extends JFrame {
         JPanel exchangeRatePanel = new JPanel(new FlowLayout());
         exchangeRatePanel.add(new JLabel("Exchange Rate (1 USD = ?):"));
         exchangeRateField = new JTextField(10);
+        // set default value for exchange rate
+        exchangeRateField.setText(defaultExchangeRateValue);
         // Add a document listener to the exchange rate text field to trigger conversion
         exchangeRateField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
